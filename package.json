@@ -1,0 +1,17 @@
+{
+  "name": "viergewinnt",
+  "version": "1.0.0",
+  "description": "Vier gewinnt Spiel mit Express Server und REST-API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["connect4", "game", "express", "rest-api"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
