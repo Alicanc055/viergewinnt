@@ -4,11 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vier gewinnt - Server Edition</title>
-  <link rel="stylesheet" href="connect4.css?v=2.5">
+  <link rel="stylesheet" href="connect4.css?v=2.6">
 </head>
 <body>
 
   <h1>Vier gewinnt</h1>
+
+  <div class="github-link">
+    <a href="https://github.zhaw.ch/caparjea/viergewinnt/blob/main/README.md" target="_blank" rel="noopener noreferrer">
+      📖 Dokumentation & Anleitung
+    </a>
+  </div>
 
   <div class="status">
     Nächster Zug: <span class="current-player" id="currentPlayer"></span>
@@ -30,7 +36,9 @@
 
   <script>
     // ========== Konfiguration ==========
-    const API_URL = 'http://localhost:3000'
+    // Auto-detect: Use localhost if available, otherwise use localStorage (GitHub Pages)
+    const IS_GITHUB_PAGES = window.location.hostname.includes('github.io')
+    const API_URL = IS_GITHUB_PAGES ? null : 'http://localhost:3000'
     const DATA_KEY = 'c4state'
     const API_KEY = 'c4game'
 
@@ -385,11 +393,20 @@
     // über die REST-API. Der Spielzustand wird als JSON übertragen.
 
     /**
-     * Speichert den aktuellen Spielzustand auf dem Server
-     * Verwendet PUT-Request mit JSON-Body
+     * Speichert den aktuellen Spielzustand auf dem Server oder in localStorage
+     * Verwendet PUT-Request mit JSON-Body (Server) oder localStorage (GitHub Pages)
      */
     async function saveGameState() {
       try {
+        // GitHub Pages: Use localStorage
+        if (IS_GITHUB_PAGES || !API_URL) {
+          localStorage.setItem(DATA_KEY, JSON.stringify(state))
+          console.log('Spielstand im Browser gespeichert:', state)
+          showMessage('Spielstand im Browser gespeichert! (Offline-Modus)', 'success')
+          return
+        }
+
+        // Local server: Use REST API
         const url = `${API_URL}/api/data/${DATA_KEY}?api-key=${API_KEY}`
         const response = await fetch(url, {
           method: 'PUT',
@@ -413,18 +430,33 @@
     }
 
     /**
-     * Lädt den Spielzustand vom Server
+     * Lädt den Spielzustand vom Server oder aus localStorage
      */
     async function loadGameState() {
       try {
-        const url = `${API_URL}/api/data/${DATA_KEY}?api-key=${API_KEY}`
-        const response = await fetch(url)
+        let loadedState
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+        // GitHub Pages: Use localStorage
+        if (IS_GITHUB_PAGES || !API_URL) {
+          const savedData = localStorage.getItem(DATA_KEY)
+          if (!savedData) {
+            showMessage('Kein gespeicherter Spielstand gefunden!', 'error')
+            return
+          }
+          loadedState = JSON.parse(savedData)
+          console.log('Spielstand aus Browser geladen:', loadedState)
+        } else {
+          // Local server: Use REST API
+          const url = `${API_URL}/api/data/${DATA_KEY}?api-key=${API_KEY}`
+          const response = await fetch(url)
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+
+          loadedState = await response.json()
+          console.log('Spielstand vom Server geladen:', loadedState)
         }
-
-        const loadedState = await response.json()
 
         // Aktualisiere den lokalen State
         state.board = loadedState.board
@@ -440,14 +472,15 @@
         // Zeige Gewinnmeldung an, falls das geladene Spiel beendet war
         if (state.gameOver && state.winner) {
           const winner = state.winner === 'r' ? 'Rot' : 'Blau'
-          showMessage(`Geladenes Spiel: ${winner} hat gewonnen!`, 'info', true)
+          const mode = IS_GITHUB_PAGES ? ' (Offline-Modus)' : ''
+          showMessage(`Geladenes Spiel: ${winner} hat gewonnen!${mode}`, 'info', true)
         } else if (state.gameOver) {
-          showMessage('Geladenes Spiel: Unentschieden!', 'info', true)
+          const mode = IS_GITHUB_PAGES ? ' (Offline-Modus)' : ''
+          showMessage(`Geladenes Spiel: Unentschieden!${mode}`, 'info', true)
         } else {
-          showMessage('Spielstand erfolgreich geladen!', 'success')
+          const mode = IS_GITHUB_PAGES ? ' (Offline-Modus)' : ''
+          showMessage(`Spielstand erfolgreich geladen!${mode}`, 'success')
         }
-
-        console.log('Spielstand geladen:', loadedState)
       } catch (error) {
         console.error('Fehler beim Laden:', error)
         showMessage('Fehler beim Laden: ' + error.message, 'error')

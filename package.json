@@ -3,15 +3,26 @@
   "version": "1.0.0",
   "description": "Vier gewinnt Spiel mit Express Server und REST-API",
   "main": "index.js",
+  "homepage": "https://caparjea.github.io/viergewinnt",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "echo 'Deploying to GitHub Pages...'",
+    "deploy": "gh-pages -d public"
   },
-  "keywords": ["connect4", "game", "express", "rest-api"],
+  "keywords": [
+    "connect4",
+    "game",
+    "express",
+    "rest-api"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
