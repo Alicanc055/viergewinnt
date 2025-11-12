@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vier gewinnt - Server Edition</title>
-  <link rel="stylesheet" href="connect4.css?v=2.4">
+  <link rel="stylesheet" href="connect4.css?v=2.5">
 </head>
 <body>
 
@@ -20,6 +20,7 @@
 
   <div class="controls">
     <button id="newGameBtn">Neues Spiel</button>
+    <button id="undoBtn" disabled>↶ Rückgängig</button>
     <button id="loadBtn">Laden</button>
     <button id="saveBtn">Speichern</button>
   </div>
@@ -148,7 +149,51 @@
       board: Array(6).fill('').map(() => Array(7).fill('')),
       currentPlayer: 'r', // 'r' für rot, 'b' für blau
       gameOver: false,    // true wenn das Spiel beendet ist
-      winner: null        // 'r' oder 'b' wenn jemand gewonnen hat
+      winner: null,       // 'r' oder 'b' wenn jemand gewonnen hat
+      history: []         // Historie für Undo-Funktion
+    }
+
+    /**
+     * Speichert den aktuellen Zustand in der Historie
+     */
+    function saveToHistory() {
+      state.history.push({
+        board: state.board.map(row => [...row]), // Deep copy
+        currentPlayer: state.currentPlayer,
+        gameOver: state.gameOver,
+        winner: state.winner
+      })
+      updateUndoButton()
+    }
+
+    /**
+     * Macht den letzten Zug rückgängig
+     */
+    function undoMove() {
+      if (state.history.length === 0) {
+        showMessage('Keine Züge zum Rückgängigmachen!', 'info')
+        return
+      }
+
+      const previousState = state.history.pop()
+      state.board = previousState.board
+      state.currentPlayer = previousState.currentPlayer
+      state.gameOver = previousState.gameOver
+      state.winner = previousState.winner
+
+      showBoard()
+      updateUndoButton()
+      showMessage('Zug rückgängig gemacht', 'info')
+    }
+
+    /**
+     * Aktualisiert den Undo-Button (aktiviert/deaktiviert)
+     */
+    function updateUndoButton() {
+      const undoBtn = document.getElementById('undoBtn')
+      if (undoBtn) {
+        undoBtn.disabled = state.history.length === 0
+      }
     }
 
     /**
@@ -257,6 +302,9 @@
         return
       }
 
+      // Speichere den aktuellen Zustand in der Historie VOR dem Zug
+      saveToHistory()
+
       // Platziere den Spielstein
       state.board[targetRow][col] = state.currentPlayer
 
@@ -307,7 +355,9 @@
       state.currentPlayer = 'r'
       state.gameOver = false
       state.winner = null
+      state.history = [] // Lösche die Historie
       showBoard()
+      updateUndoButton()
       showMessage('Neues Spiel gestartet', 'success')
     }
 
@@ -381,9 +431,11 @@
         state.currentPlayer = loadedState.currentPlayer
         state.gameOver = loadedState.gameOver || false
         state.winner = loadedState.winner || null
+        state.history = [] // Lösche Historie beim Laden
 
         // Rendere das Board neu
         showBoard()
+        updateUndoButton()
 
         // Zeige Gewinnmeldung an, falls das geladene Spiel beendet war
         if (state.gameOver && state.winner) {
@@ -409,11 +461,13 @@
 
     // Button-Event-Listener
     document.getElementById('newGameBtn').addEventListener('click', newGame)
+    document.getElementById('undoBtn').addEventListener('click', undoMove)
     document.getElementById('saveBtn').addEventListener('click', saveGameState)
     document.getElementById('loadBtn').addEventListener('click', loadGameState)
 
     // Initiales Rendering
     showBoard()
+    updateUndoButton()
   </script>
 
 </body>
