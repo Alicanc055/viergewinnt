@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vier gewinnt - Server Edition</title>
+  <link rel="stylesheet" href="connect4.css?v=2.6">
+</head>
+<body>
+
+  <h1>Vier gewinnt</h1>
+
+  <div class="github-link">
+    <a href="https://github.com/alicanc055/viergewinnt/blob/main/README.md" target="_blank" rel="noopener noreferrer">
+      📖 Dokumentation
+    </a>
+  </div>
+
+  <div class="status">
+    Nächster Zug: <span class="current-player" id="currentPlayer"></span>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <div class="board"></div>
+
+  <div class="controls">
+    <button id="newGameBtn">Neues Spiel</button>
+    <button id="undoBtn" disabled>↶ Rückgängig</button>
+    <button id="loadBtn">Laden</button>
+    <button id="saveBtn">Speichern</button>
+  </div>
+
+
+  <!-- Modular JavaScript application -->
+  <script type="module">
+    import { initApp } from './js/app.js';
+
+    // Initialize the application when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      // DOM is already ready
+      initApp();
+    }
+  </script>
+
+</body>
+</html>
+

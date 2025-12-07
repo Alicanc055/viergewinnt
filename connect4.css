@@ -1,0 +1,198 @@
+/* Stylesheet für Vier gewinnt */
+/* Version: 2.1 - Absoluter Layout Fix */
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.github-link {
+  margin: 10px 0 20px 0;
+}
+
+.github-link a {
+  color: #2196F3;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 2px solid #2196F3;
+  border-radius: 5px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.github-link a:hover {
+  background-color: #2196F3;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.board {
+  width: 560px;  /* Exakt 7 × 80px */
+  margin: 20px auto;
+  outline: 3px solid #333;
+  overflow: auto;
+  background-color: #ffeb3b;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.board .field {
+  border: 1px solid #333;
+  width: 80px;  /* Feste Breite statt vw */
+  height: 80px;  /* Feste Höhe statt vw */
+  float: left;
+  display: block;
+  cursor: pointer;
+  background-color: #ffeb3b;
+  box-sizing: border-box;  /* Border ist in width/height enthalten */
+}
+
+.board .field:hover {
+  background-color: #fff59d;
+}
+
+.board .field .piece {
+  width: 70px;  /* Feste Größe */
+  height: 70px;  /* Feste Größe */
+  border-radius: 50%;
+  margin: 5px;  /* Zentriert: (80px - 70px) / 2 = 5px */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.board .field .blue {
+  background-color: #2196F3;
+}
+
+.board .field .red {
+  background-color: #f44336;
+}
+
+.controls {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.status {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px;
+  color: #333;
+}
+
+.status .current-player {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button:disabled:hover {
+  background-color: #cccccc;
+  transform: none;
+}
+
+#undoBtn {
+  background-color: #9C27B0;
+}
+
+#undoBtn:hover:not(:disabled) {
+  background-color: #7B1FA2;
+}
+
+#saveBtn {
+  background-color: #2196F3;
+}
+
+#saveBtn:hover {
+  background-color: #0b7dda;
+}
+
+#loadBtn {
+  background-color: #FF9800;
+}
+
+#loadBtn:hover {
+  background-color: #e68900;
+}
+
+.message {
+  margin: 10px auto;
+  padding: 15px;
+  max-width: 600px;
+  border-radius: 5px;
+  display: none;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.message.success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.message.error {
+  background-color: #f44336;
+  color: white;
+}
+
+.message.info {
+  background-color: #2196F3;
+  color: white;
+}
+
