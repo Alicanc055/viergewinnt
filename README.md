@@ -27,29 +27,6 @@ Ein vollständiges Vier-gewinnt-Spiel mit Express-Server, REST-API und umfangrei
 npm install
 ```
 
-## 🚀 Deployment zu GitHub Pages
-
-Das Spiel kann kostenlos auf GitHub Pages gehostet werden!
-
-### Schnellstart
-
-```bash
-# 1. Repository auf GitHub erstellen und pushen
-git add .
-git commit -m "Ready for deployment"
-git push origin main
-
-# 2. Auf GitHub Pages deployen
-npm run deploy
-```
-
-### Wichtig
-- **homepage** in `package.json` mit deinem GitHub-Username anpassen
-- Das Spiel funktioniert auf GitHub Pages im **Offline-Modus** (localStorage)
-- Für volle Server-Funktionalität siehe [DEPLOYMENT.md](./DEPLOYMENT.md)
-
-📖 **Vollständige Anleitung**: [DEPLOYMENT.md](./DEPLOYMENT.md)
-
 ## Server starten
 
 ```bash
