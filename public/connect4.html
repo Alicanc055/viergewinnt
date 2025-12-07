@@ -37,7 +37,12 @@
     import { initApp } from './js/app.js';
 
     // Initialize the application when DOM is ready
-    initApp();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      // DOM is already ready
+      initApp();
+    }
   </script>
 
 </body>

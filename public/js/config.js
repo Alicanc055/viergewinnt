@@ -4,7 +4,12 @@
  */
 
 // Auto-detect: Use localhost if available, otherwise use localStorage (GitHub Pages)
-export const IS_GITHUB_PAGES = window.location.hostname.includes('github.io');
+// Detect if running on GitHub Pages or as static files
+export const IS_GITHUB_PAGES =
+  window.location.hostname.includes('github.io') ||
+  window.location.protocol === 'file:' ||
+  window.location.hostname === '';
+
 export const API_URL = IS_GITHUB_PAGES ? null : 'http://localhost:3000';
 export const DATA_KEY = 'c4state';
 export const API_KEY = 'c4game';

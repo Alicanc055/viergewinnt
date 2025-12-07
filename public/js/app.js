@@ -130,17 +130,38 @@ async function handleLoad() {
  * Initialize the application
  */
 export function initApp() {
-  // Event-Delegation: Ein Event-Listener auf dem gesamten Board
-  document.querySelector('.board').addEventListener('click', handleBoardClick);
+  try {
+    console.log('Initializing Connect 4 app...');
 
-  // Button-Event-Listener
-  document.getElementById('newGameBtn').addEventListener('click', handleNewGame);
-  document.getElementById('undoBtn').addEventListener('click', handleUndo);
-  document.getElementById('saveBtn').addEventListener('click', handleSave);
-  document.getElementById('loadBtn').addEventListener('click', handleLoad);
+    // Check if required DOM elements exist
+    const board = document.querySelector('.board');
+    const newGameBtn = document.getElementById('newGameBtn');
+    const undoBtn = document.getElementById('undoBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const loadBtn = document.getElementById('loadBtn');
 
-  // Initial rendering
-  renderBoard(state);
-  updateUndoButton(state);
+    if (!board || !newGameBtn || !undoBtn || !saveBtn || !loadBtn) {
+      console.error('Required DOM elements not found!');
+      return;
+    }
+
+    // Event-Delegation: Ein Event-Listener auf dem gesamten Board
+    board.addEventListener('click', handleBoardClick);
+
+    // Button-Event-Listener
+    newGameBtn.addEventListener('click', handleNewGame);
+    undoBtn.addEventListener('click', handleUndo);
+    saveBtn.addEventListener('click', handleSave);
+    loadBtn.addEventListener('click', handleLoad);
+
+    // Initial rendering
+    renderBoard(state);
+    updateUndoButton(state);
+
+    console.log('Connect 4 app initialized successfully!');
+  } catch (error) {
+    console.error('Error initializing app:', error);
+    alert('Fehler beim Laden der Anwendung. Bitte Seite neu laden.');
+  }
 }
 
