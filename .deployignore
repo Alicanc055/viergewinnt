@@ -1,0 +1,7 @@
+# Ignore these files/folders when deploying to gh-pages
+node_modules/
+.DS_Store
+.idea/
+.git/
+*.log
+

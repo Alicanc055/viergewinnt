@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Vier gewinnt Spiel mit Express Server und REST-API",
   "main": "index.js",
-  "homepage": "https://github.com/alicanc055/viergewinnt",
+  "homepage": "https://alicanc055.github.io/viergewinnt",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
