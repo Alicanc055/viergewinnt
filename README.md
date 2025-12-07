@@ -4,12 +4,6 @@
 
 **GitHub Pages:** [https://alicanc055.github.io/viergewinnt/](https://alicanc055.github.io/viergewinnt/)
 
-> **Wichtig:** Falls du den README siehst statt des Spiels:
-> 1. Gehe zu [Repository Settings → Pages](https://github.com/alicanc055/viergewinnt/settings/pages)
-> 2. Setze "Source" auf: **gh-pages** branch, **/ (root)** folder
-> 3. Klicke "Save" und warte 1-2 Minuten
-> 4. Dann funktioniert der Link oben
-
 ## Team
 - Jean-Ali Capar
 
